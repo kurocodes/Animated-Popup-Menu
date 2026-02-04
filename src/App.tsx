@@ -13,7 +13,7 @@ const itemClass =
 export default function App() {
   return (
     <div className="h-screen flex items-center justify-center">
-      <Menu.Root direction="bottom" anchor="start">
+      <Menu.Root direction="bottom" anchor="center">
         <Menu.Container
           buttonSize={40}
           menuWidth={160}

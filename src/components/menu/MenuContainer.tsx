@@ -1,5 +1,5 @@
 import type React from "react";
-import { useMenu } from "./Context";
+import { useMenu, type Anchor, type Direction } from "./Context";
 import { useLayoutEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { twMerge } from "tailwind-merge";
@@ -37,52 +37,83 @@ export function MenuContainer({
   const width = open ? menuWidth : buttonSize;
   const height = open ? contentHeight : buttonSize;
 
-  // direction offset
-  const y =
-    direction === "top"
-      ? open
-        ? -30
-        : 0
-      : direction === "bottom"
-        ? open
-          ? 30
-          : 0
-        : 0;
+  function getPlacement(direction: Direction, anchor: Anchor): React.CSSProperties {
+  const style: React.CSSProperties = {};
 
-  // anchor alignment
-  const x =
-    anchor === "start"
-      ? 0
-      : anchor === "end"
-        ? (buttonSize - menuWidth) / 2
-        : buttonSize - menuWidth;
+  if (direction === "top") style.bottom = 0;
+  if (direction === "bottom") style.top = 0;
+  if (direction === "left") style.right = 0;
+  if (direction === "right") style.left = 0;
+
+  if (direction === "top" || direction === "bottom") {
+    if (anchor === "start") style.left = 0;
+    if (anchor === "end") style.right = 0;
+    if (anchor === "center") style.left = "50%";
+  }
+
+  if (direction === "left" || direction === "right") {
+    style.top = "50%";
+  }
+
+  return style;
+}
+
+  function getOffset(direction: Direction, offset: number) {
+    switch (direction) {
+      case "top":
+        return { x: 0, y: -offset };
+      case "bottom":
+        return { x: 0, y: offset };
+      case "left":
+        return { x: 0, y: 0 };
+      case "right":
+        return { x: 0, y: 0 };
+      default:
+        return { x: 0, y: 0 };
+    }
+  }
+
+  const placement = getPlacement(direction, anchor);
+  const needsCentering = anchor === "center" || direction === "left" || direction === "right";
+  const offset = getOffset(direction, buttonSize);
 
   return (
-    <motion.div
-      initial={false}
-      animate={{ width, height, x, y }}
-      transition={{
-        type: "spring",
-        stiffness: 400,
-        damping: 25,
-        mass: 0.8,
-      }}
-      className="absolute top-0 left-0"
-    >
-      {/* MASK */}
+    <div style={{ width: buttonSize, height: buttonSize }}>
       <motion.div
         initial={false}
-        animate={{ borderRadius: open ? menuRadius : buttonSize / 2 }}
-        transition={{
-          // delay radius change so eye never sees the snap
-          duration: 0.001,
-          delay: open ? 0.1 : 0,
+        animate={{
+          width,
+          height,
+          x: open ? offset.x : 0,
+          y: open ? offset.y : 0,
         }}
-        className={twMerge("w-full h-full overflow-hidden bg-white", className)}
+        transition={{
+          type: "spring",
+          stiffness: 400,
+          damping: 25,
+          mass: 0.8,
+        }}
+        style={placement}
+        className="absolute"
       >
-        {/* content wrapper for measuring */}
-        <div ref={contentRef}>{children}</div>
+        {/* MASK */}
+        <motion.div
+          initial={false}
+          animate={{ borderRadius: open ? menuRadius : buttonSize / 2 }}
+          transition={{
+            // delay radius change so eye never sees the snap
+            duration: 0.001,
+            delay: open ? 0.1 : 0,
+          }}
+          className={twMerge(
+            "w-full h-full overflow-hidden bg-white",
+            className,
+          )}
+        >
+          {/* content wrapper for measuring */}
+          <div ref={contentRef}>{children}</div>
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
