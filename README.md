@@ -1,73 +1,119 @@
-# React + TypeScript + Vite
+# 🧬 MorphMenu
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A fluid, morphing popup menu that smoothly transforms from a button into a contextual menu — built with React, TypeScript, and Motion.
 
-Currently, two official plugins are available:
+The menu dynamically expands, shifts direction, and aligns itself based on configurable `direction` and `anchor` props, creating a tactile, polished interaction that feels alive.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Technologies
 
-## React Compiler
+- React
+- TypeScript
+- Motion
+- Tailwind CSS
+- Vite
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- Smooth morphing animation from button → menu
+- Animated width, height, and border-radius transitions
+- Direction-aware expansion (top, bottom, left, right)
+- Anchor-based alignment (start, center, end)
+- Constraint-safe API (invalid direction/anchor combos handled)
+- Spring-based motion for natural, responsive feel
+- Clean compound-component architecture
+- Fully customizable and reusable
+- Strongly typed with TypeScript
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📍 The Process
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+I wanted to explore how far a simple popup menu interaction could be pushed using motion alone — without relying on heavy positioning libraries.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+The goal wasn’t just to show a menu, but to morph into it.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+This component focuses on:
+
+- Separating layout, placement, and animation responsibilities
+- Avoiding transform conflicts by layering motion correctly
+- Supporting multiple direction + anchor combinations
+- Making the animation feel intentional and tactile
+
+The result is a menu that:
+
+- Expands from the trigger instead of appearing abruptly
+- Slides naturally in the chosen direction
+- Maintains visual alignment across configurations
+- Feels expressive without being flashy
+
+It’s designed as a playground for motion-driven UI patterns and a foundation for more advanced menus.
+
+## 📦 Usage
+
+```
+import { Menu } from "./components/menu";
+
+<Menu.Root direction="top" anchor="start">
+  <Menu.Container
+    buttonSize={40}
+    menuWidth={160}
+    menuRadius={12}
+    className="bg-white shadow-lg ring-1 ring-black/5"
+  >
+    <Menu.Trigger>
+      <div className="flex h-10 w-10 items-center justify-center">
+        ⋯
+      </div>
+    </Menu.Trigger>
+
+    <Menu.Content className="p-2">
+      <Menu.Item>Edit</Menu.Item>
+      <Menu.Item>Copy</Menu.Item>
+      <Menu.Item>Share</Menu.Item>
+      <Menu.Item>Archive</Menu.Item>
+    </Menu.Content>
+  </Menu.Container>
+</Menu.Root>
+
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🧭 Direction & Anchor
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+MorphMenu supports flexible positioning via two props:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+`direction`
+
+- `top`
+- `bottom`
+- `left`
+- `right`
+
+`anchor`
+
+- `start`
+- `center`
+- `end`
+
+> ℹ️ When using left or right, the anchor is automatically constrained to center to ensure correct alignment.
+
+## 🚦 Running the Project
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Start the development server: `npm run dev`
+4. Visit: `http://localhost:5173` in your browser
+
+## 🎛️ Preview Controls
+
+The demo includes an interactive control panel that allows you to:
+
+- Change direction and anchor live
+- Preview all valid combinations
+- See how the menu adapts in real time
+
+This makes it easy to experiment, record demos, and explore motion behavior visually.
+
+## 🎞️ Preview
+
+
+
+https://github.com/user-attachments/assets/8f188333-a591-4a66-8e15-c321c4685b09
+
