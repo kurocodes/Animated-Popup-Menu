@@ -9,6 +9,7 @@ type MenuContextValue = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   direction: Direction;
   anchor: Anchor;
+  menuRef: React.RefObject<HTMLDivElement | null>;
 };
 
 export const MenuContext = createContext<MenuContextValue | null>(null);

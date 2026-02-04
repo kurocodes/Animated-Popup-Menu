@@ -1,24 +1,27 @@
 import { useEffect, useRef, useState } from "react";
 import { MenuContext, type Anchor, type Direction } from "./Context";
+import { twMerge } from "tailwind-merge";
 
 type MenuRootProps = {
   direction?: Direction;
   anchor?: Anchor;
+  className?: string;
   children: React.ReactNode;
 };
 
 export function MenuRoot({
   direction = "top",
   anchor = "start",
+  className,
   children,
 }: MenuRootProps) {
   const [open, setOpen] = useState<boolean>(false);
-  const rootRef = useRef<HTMLDivElement | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   // outside click
   useEffect(() => {
     function onClick(e: MouseEvent) {
-      if (!rootRef.current?.contains(e.target as Node)) {
+      if (!menuRef.current?.contains(e.target as Node)) {
         setOpen(false);
       }
     }
@@ -28,8 +31,8 @@ export function MenuRoot({
   }, [open]);
 
   return (
-    <MenuContext.Provider value={{ open, setOpen, direction, anchor }}>
-      <div ref={rootRef} className="relative inline-block">
+    <MenuContext.Provider value={{ open, setOpen, direction, anchor, menuRef }}>
+      <div className={twMerge(className, "relative inline-block")}>
         {children}
       </div>
     </MenuContext.Provider>
