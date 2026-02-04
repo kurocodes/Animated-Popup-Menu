@@ -109,19 +109,17 @@ export function MenuContainer({
           }}
           transition={{
             type: "spring",
-            stiffness: 400,
+            stiffness: 300,
             damping: 25,
-            mass: 0.8,
+            // mass: 0.8,
           }}
-          // style={placement}
-          // className="absolute"
         >
           {/* MASK */}
           <motion.div
             initial={false}
             animate={{ borderRadius: open ? menuRadius : buttonSize / 2 }}
             transition={{
-              // delay radius change so eye never sees the snap
+              // delay radius change
               duration: 0.001,
               delay: open ? 0.1 : 0,
             }}

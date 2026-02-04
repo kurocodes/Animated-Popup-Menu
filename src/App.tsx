@@ -56,7 +56,7 @@ export default function App() {
   }
 
   return (
-    <div className="relative h-screen flex flex-col items-center justify-center bg-[rgb(38,38,38)]">
+    <div className="relative h-screen p-10 flex flex-col items-center justify-center bg-[#262626]">
       <div className="flex-1 flex items-center justify-center">
         <Menu.Root direction={direction} anchor={anchor}>
           <Menu.Container
